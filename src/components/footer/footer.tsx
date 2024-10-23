@@ -34,7 +34,7 @@ const Footer = () => {
         </div>
 
         <div className="text-sm text-center md:text-right">
-          © {new Date().getFullYear()} Your Company. All rights reserved.
+          © {new Date().getFullYear()} Fitsum. All rights reserved.
         </div>
       </div>
     </footer>

@@ -1,8 +1,11 @@
 import { FaArrowRight } from "react-icons/fa";
 import { cdn } from "../../config/config";
-import Modal from "../auth/modal";
 
-function Home() {
+type props = {
+  onOpen: () => void;
+};
+
+function Home({ onOpen }: props) {
   return (
     <>
       <div className="text-left font-inter text-3xl w-3/6 md:text-6xl font-extrabold md:w-3/6 m-auto my-4 md:my-8">
@@ -31,12 +34,14 @@ function Home() {
       </div>
 
       <div className="flex align-center justify-center m-auto mt-16">
-        <button className="bg-yellow-400 h-12 w-40 text-white rounded-xl hover:bg-white hover:text-black hover:border hover:border-yellow-300 mb-12 drop-shadow-xl flex items-center justify-center motion-safe:animate-bounce">
+        <button
+          className="bg-yellow-400 h-12 w-40 text-white rounded-xl hover:bg-white hover:text-black hover:border hover:border-yellow-300 mb-12 drop-shadow-xl flex items-center justify-center motion-safe:animate-bounce"
+          onClick={onOpen}
+        >
           Get Started
           <FaArrowRight className="ml-2" />
         </button>
       </div>
-      <Modal />
     </>
   );
 }
