@@ -3,3 +3,29 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-left {
+  animation: slide-in 0.5s ease forwards;
+}
+
+.slide-in-right {
+  animation: slide-in 0.5s ease forwards;
+}
+
+.placeholder:text-lg {
+  font-size: 0.1rem;
+}

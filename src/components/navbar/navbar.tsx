@@ -21,12 +21,12 @@ function Navbar() {
       </div>
 
       {/* Buttons */}
-      <div className="flex items-center ml-auto gap-4 pt-4">
-        <button className="bg-orange-500 text-xs h-10 w-28 md:h-12 md:w-36 rounded-xl text-white drop-shadow-xl hover:bg-orange-300">
+      <div className="flex items-center gap-2 ml-auto pt-0 md:ml-auto md:gap-4 md:pt-4">
+        <button className="bg-orange-500 text-xs h-10 w-24 md:h-12 md:w-36 rounded-xl text-white drop-shadow-xl hover:bg-orange-300">
           Login
         </button>
-        <button className="bg-white border border-orange-500 text-xs h-10 w-28 md:h-12 md:w-36 rounded-xl text-black drop-shadow-xl hover:bg-orange-300">
-          Logout
+        <button className="bg-white border border-orange-500 text-xs h-10 w-24 md:h-12 md:w-36 rounded-xl text-black drop-shadow-xl hover:bg-orange-300">
+          Sign Up
         </button>
       </div>
     </div>
