@@ -4,18 +4,25 @@ import Footer from "./components/footer/footer";
 import Home from "./components/home/home";
 import Navbar from "./components/navbar/navbar";
 import RegisterModal from "./components/auth/registerModal";
+import ProfilingForm from "./components/profilingForm/profilingForm";
 
 function App() {
   const [openLogin, setOpenLogin] = useState<boolean>(false);
   const [openRegister, setOpenRegister] = useState<boolean>(false);
+  const [profilingFormFinished, setProfilingFormFinished] =
+    useState<boolean>(false);
+
   const handleLoginBtn = () => {
     setOpenLogin(!openLogin);
   };
   const handleRegisterBtn = () => {
     setOpenRegister(!openRegister);
   };
+  const handleProfilingForm = () => {
+    setProfilingFormFinished(!profilingFormFinished);
+  };
 
-  const login = true;
+  const loginStatus = true;
 
   return (
     <>
@@ -23,9 +30,12 @@ function App() {
         <Navbar
           onOpenLogin={handleLoginBtn}
           onOpenRegister={handleRegisterBtn}
+          loginStatus={loginStatus}
         />
-        {!login && <Home onOpen={handleLoginBtn} />}
-
+        {!loginStatus && <Home onOpen={handleLoginBtn} />}
+        {loginStatus && !profilingFormFinished && (
+          <ProfilingForm onFinished={handleProfilingForm} />
+        )}
         <Footer />
         {openLogin && (
           <LoginModal
