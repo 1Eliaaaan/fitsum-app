@@ -1,17 +1,26 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import useUserStore from "./../../hooks/useUserStore";
 
-type props = {
+type Props = {
   onClose: () => void;
   onOpenLogin: () => void;
 };
 
-function RegisterModal({ onClose, onOpenLogin }: props) {
+function RegisterModal({ onClose, onOpenLogin }: Props) {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { login } = useUserStore();
 
-  function handleLogin() {
-    onClose();
-    onOpenLogin();
+  async function handleLogin() {
+    try {
+      await login(email, password);
+      onClose();
+      onOpenLogin();
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   }
 
   return (
@@ -28,12 +37,15 @@ function RegisterModal({ onClose, onOpenLogin }: props) {
         <div>
           <h1 className="text-2xl font-bold pl-11">Register</h1>
         </div>
-        <form action="">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin();
+          }}
+        >
           <div className="mt-4 md:mt-4 pl-11">
             <input
               type="text"
-              name=""
-              id=""
               placeholder="Name"
               className="bg-gray-300 rounded-xl p-4 w-5/6 text-xs placeholder-slate-950"
             />
@@ -41,43 +53,19 @@ function RegisterModal({ onClose, onOpenLogin }: props) {
           <div className="mt-4 md:mt-4 pl-11">
             <input
               type="text"
-              name=""
-              id=""
               placeholder="Email"
               className="bg-gray-300 rounded-xl p-4 w-5/6 text-xs placeholder-slate-950"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-
           <div className="mt-4 md:mt-4 pl-11 relative">
             <input
               type={showPassword ? "text" : "password"}
-              name="password"
-              id="password"
               placeholder="Password"
               className="bg-gray-300 rounded-xl p-4 w-5/6 text-xs pr-10 placeholder-slate-950"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-[calc(16.67%+0.5rem)] top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800 focus:outline-none"
-              aria-label={
-                showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
-              }
-            >
-              {showPassword ? (
-                <FaEyeSlash className="h-5 w-5" />
-              ) : (
-                <FaEye className="h-5 w-5" />
-              )}
-            </button>
-          </div>
-          <div className="mt-4 md:mt-4 pl-11 relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              id="password"
-              placeholder="Confirm Password"
-              className="bg-gray-300 rounded-xl p-4 w-5/6 text-xs pr-10 placeholder-slate-950"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button
               type="button"

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import useUserStore from "./../../hooks/useUserStore";
 
 type props = {
   onClose: () => void;
@@ -9,9 +10,17 @@ type props = {
 function LoginModal({ onClose, onOpenRegister }: props) {
   const [showPassword, setShowPassword] = useState(false);
 
-  function handleRegister() {
-    onClose();
-    onOpenRegister();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { login } = useUserStore();
+
+  async function handleLogin() {
+    try {
+      await login(email, password);
+      onClose();
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   }
 
   return (
@@ -35,9 +44,17 @@ function LoginModal({ onClose, onOpenRegister }: props) {
             id=""
             placeholder="Email"
             className="bg-gray-300 rounded-xl p-4 w-5/6 text-xs placeholder-slate-950"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <form action="">
+        <form
+          action=""
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin();
+          }}
+        >
           <div className="mt-8 md:mt-8 pl-11 relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -45,6 +62,8 @@ function LoginModal({ onClose, onOpenRegister }: props) {
               id="password"
               placeholder="Password"
               className="bg-gray-300 rounded-xl p-4 w-5/6 text-xs pr-10 placeholder-slate-950"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button
               type="button"
@@ -86,7 +105,10 @@ function LoginModal({ onClose, onOpenRegister }: props) {
           </div>
         </form>
         <p
-          onClick={handleRegister}
+          onClick={() => {
+            onClose();
+            onOpenRegister();
+          }}
           className="text-xs underline pt-8 pl-12 cursor-pointer"
         >
           Not have account? Register Here!

@@ -1,12 +1,31 @@
+import { useNavigate } from "react-router-dom";
 import { cdn } from "../../config/config";
-
+import useUserStore from "../../hooks/useUserStore";
 type props = {
   onOpenRegister: () => void;
   onOpenLogin: () => void;
   loginStatus: boolean;
+  profiling_form: number;
 };
 
-function Navbar({ onOpenRegister, onOpenLogin, loginStatus }: props) {
+function Navbar({
+  onOpenRegister,
+  onOpenLogin,
+  loginStatus,
+  profiling_form,
+}: props) {
+  const navigate = useNavigate();
+  const { logout } = useUserStore();
+  function handleClick(button: string) {
+    if (!loginStatus) {
+      navigate("/");
+    } else if (loginStatus && profiling_form !== 1) {
+      navigate("/profiling");
+    } else {
+      navigate(button);
+    }
+  }
+
   return (
     <div className="flex flex-wrap items-center justify-between w-full h-20 px-4 md:px-10">
       <div className="w-10">
@@ -18,9 +37,26 @@ function Navbar({ onOpenRegister, onOpenLogin, loginStatus }: props) {
       </div>
 
       <div className="hidden md:flex justify-center items-center ml-20 gap-20 pt-1">
-        <p className="text-center font-thin text-sm md:text-xl">Profile</p>
-        <p className="text-center font-thin text-sm md:text-xl">Routine</p>
-        <p className="text-center font-thin text-sm md:text-xl">Recipes</p>
+        <button
+          onClick={() => handleClick("profile")}
+          className="text-center font-thin cursor-pointer text-sm md:text-xl focus:font-bold focus:text-1xl"
+        >
+          Profile
+        </button>
+
+        <button
+          onClick={() => handleClick("routine")}
+          className="text-center font-thin cursor-pointer text-sm md:text-xl focus:font-bold focus:text-1xl"
+        >
+          Routine
+        </button>
+
+        <button
+          onClick={() => handleClick("recipes")}
+          className="text-center font-thin cursor-pointer text-sm md:text-xl focus:font-bold focus:text-1xl"
+        >
+          Recipes
+        </button>
       </div>
 
       {!loginStatus ? (
@@ -41,7 +77,7 @@ function Navbar({ onOpenRegister, onOpenLogin, loginStatus }: props) {
       ) : (
         <div className="flex items-center gap-2 ml-auto pt-0 md:ml-auto md:gap-4 md:pt-4">
           <button
-            onClick={onOpenLogin}
+            onClick={logout}
             className="border border-blue-900 text-blue-900 text-xs h-10 w-24 md:h-12 md:w-36 rounded-xl drop-shadow-xl hover:bg-blue-800 hover:text-white hover:border-white"
           >
             Logout

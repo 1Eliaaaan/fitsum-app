@@ -1,21 +1,32 @@
 import { useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { cdn } from "../../config/config";
+import Loader from "../loader/loader";
+import { useNavigate } from "react-router-dom";
 
 type props = {
   onFinished: () => void;
 };
 
 const ProfilingForm = ({ onFinished }: props) => {
+  const navigate = useNavigate();
   const [firstForm, setFirstForm] = useState<boolean>(false);
-
+  const [loader, setLoader] = useState<boolean>(false);
   function handleFirstForm() {
     setFirstForm(!firstForm);
+  }
+  function hanldeFinish() {
+    onFinished();
+    setLoader(true);
+    setTimeout(() => {
+      setLoader(!loader);
+      navigate("/profile");
+    }, 4000);
   }
 
   return (
     <div>
-      {!firstForm ? (
+      {!firstForm && !loader ? (
         <div className="flex flex-col items-start justify-start ml-24  slide-in-left">
           <div className="text-left font-inter text-3xl md:text-5xl font-extrabold w-full my-4 md:my-8">
             <h1 className="leading-tight">Let's get to know objectives</h1>
@@ -75,7 +86,7 @@ const ProfilingForm = ({ onFinished }: props) => {
             </button>
           </div>
         </div>
-      ) : (
+      ) : firstForm && !loader ? (
         <div className="flex flex-col items-start justify-start ml-24  slide-in-left">
           <div className="text-left font-inter text-3xl md:text-5xl font-extrabold w-full my-4 md:my-8">
             <h1 className="leading-tight">Let's get to know objectives</h1>
@@ -131,7 +142,7 @@ const ProfilingForm = ({ onFinished }: props) => {
               Back
             </button>
             <button
-              onClick={onFinished}
+              onClick={hanldeFinish}
               className="bg-yellow-300 font-inter text-white w-28 h-14 rounded-lg my-4 flex items-center justify-center"
             >
               Next
@@ -139,6 +150,8 @@ const ProfilingForm = ({ onFinished }: props) => {
             </button>
           </div>
         </div>
+      ) : (
+        <Loader />
       )}
     </div>
   );
