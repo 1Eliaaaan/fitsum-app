@@ -13,7 +13,11 @@ interface UserStore {
   profiling_form: number;
   isLoggedIn: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  register: (
+    username: string,
+    email: string,
+    password: string
+  ) => Promise<void>;
   logout: () => void;
 }
 
@@ -22,21 +26,35 @@ const useUserStore = create<UserStore>((set: any) => ({
   isLoggedIn: false,
   profiling_form: 0,
   login: async (email: string, password: string) => {
-    const response = await axios.post(`${api.url}/auth/login`, {
-      email,
-      password,
-    });
-    set({
-      user: response.data,
-      isLoggedIn: true,
-      profiling_form: response.data.profiling_form,
-    });
+    try {
+      const response = await axios.post(`${api.url}/auth/login`, {
+        email,
+        password,
+      });
+      set({
+        user: response.data,
+        isLoggedIn: true,
+        profiling_form: response.data.profiling_form,
+      });
+    } catch (error: any) {
+      set({ error: error.response?.data || error.message });
+      throw error;
+    }
   },
 
-  register: async (name, email, password) => {
-    // Simula una solicitud a la API
+  register: async (username, email, password) => {
+    try {
+      const response = await axios.post(`${api.url}/auth/register`, {
+        username,
+        email,
+        password,
+      });
 
-    set({ user: "", isLoggedIn: true });
+      return response.data;
+    } catch (error: any) {
+      set({ error: error.response?.data || error.message });
+      throw error;
+    }
   },
 
   logout: async () => {
