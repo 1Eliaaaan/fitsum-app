@@ -9,18 +9,16 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Profile from "./components/profile/profile";
 import Routine from "./components/routine/routine";
 import Recipes from "./components/recipes/recipes";
-import useUserStore from "./hooks/useUserStore";
+import { useAuth } from "./hooks/useAuth";
+
 function App() {
   const navigate = useNavigate();
+  const { isAuthenticated, logout, login, profiling_form } = useAuth();
 
-  const loginStatus = useUserStore((state: any) => state.isLoggedIn);
-  const user = useUserStore((state: any) => state.user);
-  const profiling_form = useUserStore((state: any) => state.profiling_form);
   const [openLogin, setOpenLogin] = useState<boolean>(false);
   const [openRegister, setOpenRegister] = useState<boolean>(false);
   // const [profilingFormFinished, setProfilingFormFinished] =
   //   useState<boolean>(true);
-
   const handleLoginBtn = () => {
     setOpenLogin(!openLogin);
   };
@@ -32,17 +30,16 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("loginStatus", loginStatus);
-    if (!loginStatus) {
+    if (!isAuthenticated) {
       navigate("/");
     }
-    if (loginStatus && profiling_form !== 1) {
+    if (isAuthenticated && profiling_form !== 1) {
       navigate("/profiling");
     }
-    if (loginStatus && profiling_form == 1) {
+    if (isAuthenticated && profiling_form == 1) {
       navigate("profile");
     }
-  }, [loginStatus]);
+  }, [isAuthenticated]);
 
   return (
     <>
@@ -50,7 +47,7 @@ function App() {
         <Navbar
           onOpenLogin={handleLoginBtn}
           onOpenRegister={handleRegisterBtn}
-          loginStatus={loginStatus}
+          isAuthenticated={isAuthenticated}
           profiling_form={profiling_form}
         />
 
@@ -64,7 +61,7 @@ function App() {
             path="profile"
             element={
               <Profile
-                loginStatus={loginStatus}
+                isAuthenticated={isAuthenticated}
                 profiling_form={profiling_form}
               />
             }
@@ -73,7 +70,7 @@ function App() {
             path="routine"
             element={
               <Routine
-                loginStatus={loginStatus}
+                isAuthenticated={isAuthenticated}
                 profiling_form={profiling_form}
               />
             }
@@ -82,7 +79,7 @@ function App() {
             path="recipes"
             element={
               <Recipes
-                loginStatus={loginStatus}
+                isAuthenticated={isAuthenticated}
                 profiling_form={profiling_form}
               />
             }

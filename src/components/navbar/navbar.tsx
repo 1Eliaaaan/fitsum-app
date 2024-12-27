@@ -1,25 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { cdn } from "../../config/config";
-import useUserStore from "../../hooks/useUserStore";
+import useUserStore from "../../store/useUserStore";
 type props = {
   onOpenRegister: () => void;
   onOpenLogin: () => void;
-  loginStatus: boolean;
+  isAuthenticated: boolean;
   profiling_form: number;
 };
 
 function Navbar({
   onOpenRegister,
   onOpenLogin,
-  loginStatus,
+  isAuthenticated,
   profiling_form,
 }: props) {
   const navigate = useNavigate();
   const { logout } = useUserStore();
   function handleClick(button: string) {
-    if (!loginStatus) {
+    if (!isAuthenticated) {
       navigate("/");
-    } else if (loginStatus && profiling_form !== 1) {
+    } else if (isAuthenticated && profiling_form !== 1) {
       navigate("/profiling");
     } else {
       navigate(button);
@@ -59,7 +59,7 @@ function Navbar({
         </button>
       </div>
 
-      {!loginStatus ? (
+      {!isAuthenticated ? (
         <div className="flex items-center gap-2 ml-auto pt-0 md:ml-auto md:gap-4 md:pt-4">
           <button
             onClick={onOpenLogin}

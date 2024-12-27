@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import useUserStore from "./../../hooks/useUserStore";
+import useUserStore from "../../store/useUserStore";
 
 type props = {
   onClose: () => void;
