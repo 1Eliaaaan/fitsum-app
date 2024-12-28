@@ -1,12 +1,38 @@
 import { useState, useRef, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import recipes from "./recipe";
+
+import useUserStore from "../../store/useUserStore";
+import { userService } from "../../services/userService";
 
 export default function Recipes() {
   const [popupData, setPopupData] = useState<any | null>(null); // Manejar los datos del popup
   const [showLeftArrow, setShowLeftArrow] = useState<boolean[]>([]);
   const [showRightArrow, setShowRightArrow] = useState<boolean[]>([]);
   const scrollContainerRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const userId = useUserStore((state) => state.userId);
+  const [recipes, setRecipes] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (userId) {
+      fetchUserRoutines();
+    }
+  }, [userId]);
+
+  const fetchUserRoutines = async () => {
+    try {
+      setLoading(true);
+      const data = await userService.getUserRecipes(userId);
+      setRecipes(data.recipes.recipes);
+      console.log(data.recipes.recipes);
+    } catch (err) {
+      setError("Error");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const scroll = (direction: "left" | "right", index: number) => {
     const container = scrollContainerRefs.current[index];
@@ -37,29 +63,32 @@ export default function Recipes() {
     }
   };
 
-  useEffect(() => {
-    scrollContainerRefs.current = scrollContainerRefs.current.slice(
-      0,
-      recipes.length
-    );
+  // useEffect(() => {
+  //   scrollContainerRefs.current = scrollContainerRefs.current.slice(
+  //     0,
+  //     recipes.length
+  //   );
 
-    recipes.forEach((_, index) => {
-      const container = scrollContainerRefs.current[index];
-      if (container) {
-        container.addEventListener("scroll", () => checkScrollPosition(index));
-        checkScrollPosition(index); // Initial check
-      }
-    });
+  //   recipes.forEach((_, index) => {
+  //     const container = scrollContainerRefs.current[index];
+  //     if (container) {
+  //       container.addEventListener("scroll", () => checkScrollPosition(index));
+  //       checkScrollPosition(index); // Initial check
+  //     }
+  //   });
 
-    return () => {
-      recipes.forEach((_, index) => {
-        const container = scrollContainerRefs.current[index];
-        container?.removeEventListener("scroll", () =>
-          checkScrollPosition(index)
-        );
-      });
-    };
-  }, []);
+  //   return () => {
+  //     recipes.forEach((_, index) => {
+  //       const container = scrollContainerRefs.current[index];
+  //       container?.removeEventListener("scroll", () =>
+  //         checkScrollPosition(index)
+  //       );
+  //     });
+  //   };
+  // }, []);
+  if (!userId) return <div>Please Login</div>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div>
@@ -93,7 +122,9 @@ export default function Recipes() {
                   <div className="relative w-72 h-48 overflow-hidden bg-yellow-500 flex rounded-lg group">
                     <img
                       className="h-full w-full rounded-lg transition-all duration-300 group-hover:blur-sm"
-                      src={list.imgUrl}
+                      src={
+                        "https://d19o0ng1o3cl3u.cloudfront.net/fitsum-app/images/food-min.jpg"
+                      }
                       alt=""
                     />
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -161,23 +192,26 @@ export default function Recipes() {
                     )}
                   </div>
                 </div>
-                <div>
+                <div className="">
                   <img
-                    src={popupData.imgUrl}
+                    src={
+                      "https://d19o0ng1o3cl3u.cloudfront.net/fitsum-app/images/food-min.jpg"
+                    }
                     alt={popupData.name}
                     className="h-52 object-contain rounded-xl"
                   />
                   <p className="text-center text-2xl font-semibold pl-2 pt-4">
                     How to prepare
                   </p>
-                  <iframe
-                    src="https://www.youtube.com/embed/E7wJTI-1dvQ"
-                    frameborder="0"
-                    allow="autoplay; encrypted-media"
-                    allowfullscreen
-                    title="video"
-                    className="pt-4  h-96 max-h-60 rounded-xl m-auto"
-                  />
+                  <div className="bg-red-400 h-12 w-24 flex justify-center items-center rounded-xl m-auto mt-12 cursor-pointer">
+                    <a
+                      className="m-auto"
+                      href={popupData.videoExample}
+                      target="_blank"
+                    >
+                      See videos
+                    </a>
+                  </div>
                 </div>
                 <div>
                   <h1 className="text-2xl font-semibold mb-4">

@@ -14,6 +14,10 @@ export const userService = {
     const response = await api.get(`user/userRoutines/${idUser}`);
     return response.data;
   },
+  getUserRecipes: async (idUser: number | null) => {
+    const response = await api.get(`user/userRecipes/${idUser}`);
+    return response.data;
+  },
   createUserRoutines: async (userData: any, idUser: number | null) => {
     const response = await api.post(`user/userRoutines/${idUser}`, userData);
     return response.data;

@@ -18,11 +18,11 @@ export default function Routine() {
 
   useEffect(() => {
     if (userId) {
-      fetchUserProfile();
+      fetchUserRoutines();
     }
   }, [userId]);
 
-  const fetchUserProfile = async () => {
+  const fetchUserRoutines = async () => {
     try {
       setLoading(true);
       const data = await userService.getUserRoutines(userId);
