@@ -1,6 +1,5 @@
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { cdn } from "../../config/config";
-import { useNavigate } from "react-router-dom";
 import useUserStore from "../../store/useUserStore";
 import { useEffect, useState } from "react";
 import { userService } from "../../services/userService";
@@ -46,16 +45,16 @@ const Profile = () => {
           <img
             src={`${cdn.icons}placeholder.svg`}
             alt=""
-            className="w-72 h-72 ml-24 rounded-xl"
+            className="leading-tight w-72 h-72 ml-24 rounded-xl"
           />
-          <div className="flex items-center justify-center ml-24">
+          <div className="leading-tight flex items-center justify-center ml-24">
             <button className="bg-blue-900 h-12 w-12 mt-8 text-white rounded-xl hover:bg-white hover:text-black hover:border hover:border-blue-900 mb-12 drop-shadow-xl flex items-center justify-center ">
               <FaCloudUploadAlt />
             </button>
           </div>
         </div>
 
-        <div>
+        <div className="leading-tight">
           <p className="ml-16 font-inter text-xl">Name</p>
           <input
             type="text"
@@ -85,7 +84,7 @@ const Profile = () => {
             className="font-inter text-xs my-2 text-left ml-16 pl-4 placeholder:text-left bg-gray-200 w-80 h-12 rounded-lg drop-shadow-lg"
           />
         </div>
-        <div className="flex items-center justify-center ml-96">
+        <div className="leading-tight flex items-center justify-center ml-96">
           <img src={`${cdn.icons}logo.ico`} alt="" className="" />
         </div>
       </div>

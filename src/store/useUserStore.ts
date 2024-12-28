@@ -19,6 +19,7 @@ interface UserStore {
   userId: number | null;
   email: string | undefined;
   name: string | undefined;
+  setProfilingForm: (value: number) => void;
 }
 interface JwtPayload {
   exp: number;
@@ -91,6 +92,7 @@ const useUserStore = create<UserStore>()(
         set({ isAuthenticated: false, token: null });
         return false;
       },
+      setProfilingForm: (value: number) => set({ profiling_form: value }),
     }),
     {
       name: "auth-storage",

@@ -13,7 +13,7 @@ import { useAuth } from "./hooks/useAuth";
 
 function App() {
   const navigate = useNavigate();
-  const { isAuthenticated, logout, login, profiling_form } = useAuth();
+  const { isAuthenticated, profiling_form } = useAuth();
 
   const [openLogin, setOpenLogin] = useState<boolean>(false);
   const [openRegister, setOpenRegister] = useState<boolean>(false);
@@ -24,9 +24,6 @@ function App() {
   };
   const handleRegisterBtn = () => {
     setOpenRegister(!openRegister);
-  };
-  const handleProfilingForm = () => {
-    // setProfilingFormFinished(!profilingFormFinished);
   };
 
   useEffect(() => {
@@ -53,37 +50,10 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home onOpen={handleLoginBtn} />} />
-          <Route
-            path="profiling"
-            element={<ProfilingForm onFinished={handleProfilingForm} />}
-          />
-          <Route
-            path="profile"
-            element={
-              <Profile
-                isAuthenticated={isAuthenticated}
-                profiling_form={profiling_form}
-              />
-            }
-          />
-          <Route
-            path="routine"
-            element={
-              <Routine
-                isAuthenticated={isAuthenticated}
-                profiling_form={profiling_form}
-              />
-            }
-          />
-          <Route
-            path="recipes"
-            element={
-              <Recipes
-                isAuthenticated={isAuthenticated}
-                profiling_form={profiling_form}
-              />
-            }
-          />
+          <Route path="profiling" element={<ProfilingForm />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="routine" element={<Routine />} />
+          <Route path="recipes" element={<Recipes />} />
         </Routes>
 
         <Footer />

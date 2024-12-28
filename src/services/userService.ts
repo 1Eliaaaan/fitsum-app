@@ -6,8 +6,20 @@ export const userService = {
     return response.data;
   },
 
-  updateUserProfile: async (userData: any) => {
-    const response = await api.put("/user/profile", userData);
+  updateUserProfile: async (userData: any, idUser: number | null) => {
+    const response = await api.post(`/user/userProfile/${idUser}`, userData);
+    return response.data;
+  },
+  getUserRoutines: async (idUser: number | null) => {
+    const response = await api.get(`user/userRoutines/${idUser}`);
+    return response.data;
+  },
+  createUserRoutines: async (userData: any, idUser: number | null) => {
+    const response = await api.post(`user/userRoutines/${idUser}`, userData);
+    return response.data;
+  },
+  createUserRecipes: async (userData: any, idUser: number | null) => {
+    const response = await api.post(`user/userRecipes/${idUser}`, userData);
     return response.data;
   },
 };

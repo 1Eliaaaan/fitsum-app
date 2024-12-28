@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export function useAuth() {
   const navigate = useNavigate();
-  const { isAuthenticated, checkAuth, logout, login, profiling_form, user } =
+  const { isAuthenticated, checkAuth, logout, login, profiling_form } =
     useUserStore();
 
   useEffect(() => {
@@ -14,5 +14,5 @@ export function useAuth() {
     }
   }, [checkAuth, navigate]);
 
-  return { isAuthenticated, checkAuth, logout, login, profiling_form, user };
+  return { isAuthenticated, checkAuth, logout, login, profiling_form };
 }
