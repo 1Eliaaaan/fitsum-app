@@ -6,8 +6,8 @@ import { userService } from "../../services/userService";
 
 export default function Recipes() {
   const [popupData, setPopupData] = useState<any | null>(null);
-  const [showLeftArrow, setShowLeftArrow] = useState<boolean[]>([]);
-  const [showRightArrow, setShowRightArrow] = useState<boolean[]>([]);
+  const [showLeftArrow] = useState<boolean[]>([]);
+  const [showRightArrow] = useState<boolean[]>([]);
   const scrollContainerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const userId = useUserStore((state) => state.userId);
   const [recipes, setRecipes] = useState([]);
