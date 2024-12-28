@@ -8,7 +8,7 @@ const Profile = () => {
   const userId = useUserStore((state) => state.userId);
   const email = useUserStore((state) => state.email);
   const name = useUserStore((state) => state.name);
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState({ age: "" });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -73,7 +73,7 @@ const Profile = () => {
           <input
             type="text"
             placeholder="Age"
-            value={profile.age || ""}
+            value={profile?.age || ""}
             className="font-inter text-xs my-2 text-left ml-16 pl-4 placeholder:text-center bg-gray-200 w-80 h-12 rounded-lg drop-shadow-lg"
           />
           <p className="ml-16 font-inter text-xl">Change Password</p>

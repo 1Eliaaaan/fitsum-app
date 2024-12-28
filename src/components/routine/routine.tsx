@@ -6,11 +6,10 @@ import { userService } from "../../services/userService";
 
 export default function Routine() {
   const userId = useUserStore((state) => state.userId);
-  const [routines, setRoutines] = useState(null);
+  const [routines, setRoutines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Estados para las flechas de scroll
   const [showLeftArrow, setShowLeftArrow] = useState<boolean[]>([]);
   const [showRightArrow, setShowRightArrow] = useState<boolean[]>([]);
 
@@ -36,7 +35,6 @@ export default function Routine() {
     }
   };
 
-  // Manejador de scroll
   const scroll = (direction: "left" | "right", index: number) => {
     const container = scrollContainerRefs.current[index];
     if (container) {
@@ -79,7 +77,7 @@ export default function Routine() {
           container.addEventListener("scroll", () =>
             checkScrollPosition(index)
           );
-          checkScrollPosition(index); // Initial check
+          checkScrollPosition(index);
         }
       });
 

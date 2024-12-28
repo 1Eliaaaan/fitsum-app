@@ -5,12 +5,12 @@ import useUserStore from "../../store/useUserStore";
 import { userService } from "../../services/userService";
 
 export default function Recipes() {
-  const [popupData, setPopupData] = useState<any | null>(null); // Manejar los datos del popup
+  const [popupData, setPopupData] = useState<any | null>(null);
   const [showLeftArrow, setShowLeftArrow] = useState<boolean[]>([]);
   const [showRightArrow, setShowRightArrow] = useState<boolean[]>([]);
   const scrollContainerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const userId = useUserStore((state) => state.userId);
-  const [recipes, setRecipes] = useState(null);
+  const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -43,25 +43,25 @@ export default function Recipes() {
     }
   };
 
-  const checkScrollPosition = (index: number) => {
-    const container = scrollContainerRefs.current[index];
-    if (container) {
-      const leftArrowVisible = container.scrollLeft > 0;
-      const rightArrowVisible =
-        container.scrollLeft < container.scrollWidth - container.clientWidth;
+  // const checkScrollPosition = (index: number) => {
+  //   const container = scrollContainerRefs.current[index];
+  //   if (container) {
+  //     const leftArrowVisible = container.scrollLeft > 0;
+  //     const rightArrowVisible =
+  //       container.scrollLeft < container.scrollWidth - container.clientWidth;
 
-      setShowLeftArrow((prev) => {
-        const newState = [...prev];
-        newState[index] = leftArrowVisible;
-        return newState;
-      });
-      setShowRightArrow((prev) => {
-        const newState = [...prev];
-        newState[index] = rightArrowVisible;
-        return newState;
-      });
-    }
-  };
+  //     setShowLeftArrow((prev) => {
+  //       const newState = [...prev];
+  //       newState[index] = leftArrowVisible;
+  //       return newState;
+  //     });
+  //     setShowRightArrow((prev) => {
+  //       const newState = [...prev];
+  //       newState[index] = rightArrowVisible;
+  //       return newState;
+  //     });
+  //   }
+  // };
 
   // useEffect(() => {
   //   scrollContainerRefs.current = scrollContainerRefs.current.slice(
