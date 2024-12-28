@@ -1,26 +1,5 @@
 {
-
-    "routes" : [
-        {
-            "src" : "/",
-            "dest" : "/"
-        },
-            {
-            "src" : "/profiling",
-            "dest" : "/"
-        } ,
-            {
-            "src" : "/profile",
-            "dest" : "/"
-        } ,
-            {
-            "src" : "/routine",
-            "dest" : "/"
-        } ,
-            {
-            "src" : "/recipes",
-            "dest" : "/"
-        } 
+   "rewrites":  [
+       {"source": "/(.*)", "destination": "/"}
     ]
-
 }
