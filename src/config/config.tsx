@@ -4,5 +4,5 @@ export const cdn = {
 };
 
 export const apiUrl = {
-  url: import.meta.env.VITE_APP_API,
+  url: "https://27sj6jmel9.execute-api.us-east-1.amazonaws.com",
 };
