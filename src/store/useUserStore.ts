@@ -36,11 +36,12 @@ const useUserStore = create<UserStore>()(
       name: undefined,
       login: async (email: string, password: string) => {
         try {
-          console.log("API URL:", apiUrl.url);
+         
           const response = await axios.post(`${apiUrl.url}/auth/login`, {
             email,
             password,
           });
+          console.log(response.data);
           if (response.status === 200 && response.data.token) {
             set({
               email: response.data.email,

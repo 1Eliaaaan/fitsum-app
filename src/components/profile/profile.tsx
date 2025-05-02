@@ -1,7 +1,7 @@
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { cdn } from "../../config/config";
 import useUserStore from "../../store/useUserStore";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { userService } from "../../services/userService";
 
 const Profile = () => {
@@ -11,6 +11,8 @@ const Profile = () => {
   const [profile, setProfile] = useState({ age: "" });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [profileImage, setProfileImage] = useState(`${cdn.icons}placeholder.svg`);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (userId) {
@@ -31,6 +33,21 @@ const Profile = () => {
     }
   };
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
   if (!userId) return <div>Please Login</div>;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -43,12 +60,22 @@ const Profile = () => {
       <div className="flex">
         <div>
           <img
-            src={`${cdn.icons}placeholder.svg`}
-            alt=""
-            className="leading-tight w-72 h-72 ml-24 rounded-xl"
+            src={profileImage}
+            alt="Profile"
+            className="leading-tight w-72 h-72 ml-24 rounded-xl object-cover"
+          />
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleImageUpload}
+            accept="image/*"
+            className="hidden"
           />
           <div className="leading-tight flex items-center justify-center ml-24">
-            <button className="bg-blue-900 h-12 w-12 mt-8 text-white rounded-xl hover:bg-white hover:text-black hover:border hover:border-blue-900 mb-12 drop-shadow-xl flex items-center justify-center ">
+            <button 
+              onClick={handleUploadClick}
+              className="bg-blue-900 h-12 w-12 mt-8 text-white rounded-xl hover:bg-white hover:text-black hover:border hover:border-blue-900 mb-12 drop-shadow-xl flex items-center justify-center"
+            >
               <FaCloudUploadAlt />
             </button>
           </div>

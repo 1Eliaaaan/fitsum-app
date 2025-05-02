@@ -24,8 +24,8 @@ export default function Recipes() {
     try {
       setLoading(true);
       const data = await userService.getUserRecipes(userId);
-      setRecipes(data.recipes.recipes);
-      console.log(data.recipes.recipes);
+      setRecipes(data.recipes);
+      console.log(data.recipes);
     } catch (err) {
       setError("Error");
       console.error(err);

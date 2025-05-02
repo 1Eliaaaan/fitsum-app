@@ -123,7 +123,7 @@ export default function Routine() {
                 display: none;
               }
             `}</style>
-              {routine.exercise.map((exercise: any, idx: number) => (
+              {routine.exercises.map((exercise: any, idx: number) => (
                 <div
                   key={idx}
                   className="relative flex bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-400 rounded-lg group overflow-hidden"
